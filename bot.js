@@ -1,49 +1,64 @@
 const mineflayer = require('mineflayer')
 
-function startBot(){
+const host = "ttuffsmp.falixsrv.me"
+const port = 25565
+const username = "wallstdokicte8@hotmail.com"
 
-const bot = mineflayer.createBot({
-  host: "ttuffsmp.falixsrv.me",
-  port: 25565,
-  username: "wallstdokicte8@hotmail.com",
-  auth: "microsoft"
-})
+function startBot() {
 
-bot.on('spawn', () => {
+  console.log("Controllo se il server è online...")
 
-  console.log("Bot entrato")
+  const bot = mineflayer.createBot({
+    host: host,
+    port: port,
+    username: username,
+    auth: "microsoft",
+    version: "1.21.11"
+  })
 
-  bot.chat("/vanish")
+  bot.on('spawn', () => {
 
-  antiAfk()
-
-})
-
-function antiAfk(){
-
-  setInterval(() => {
-
-    bot.setControlState('jump', true)
+    console.log("Bot entrato nel server")
 
     setTimeout(() => {
-      bot.setControlState('jump', false)
-    }, 500)
+      bot.chat("/vanish")
+    }, 3000)
 
-  }, 30000)
+    antiAfk(bot)
 
-}
+  })
 
-bot.on('end', () => {
+  function antiAfk(bot){
 
-  console.log("Bot disconnesso, riconnessione")
+    setInterval(() => {
 
-  setTimeout(() => {
-    startBot()
-  }, 20000)
+      bot.setControlState('jump', true)
 
-})
+      setTimeout(() => {
+        bot.setControlState('jump', false)
+      }, 400)
 
-bot.on('error', console.log)
+    }, 30000)
+
+  }
+
+  bot.on('error', (err) => {
+
+    console.log("Server offline o errore. Riprovo tra 60 secondi")
+
+    bot.quit()
+
+  })
+
+  bot.on('end', () => {
+
+    console.log("Bot disconnesso. Riconnessione tra 60 secondi")
+
+    setTimeout(() => {
+      startBot()
+    }, 60000)
+
+  })
 
 }
 

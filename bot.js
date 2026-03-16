@@ -1,65 +1,67 @@
 const mineflayer = require('mineflayer')
 
-const host = "ttuffsmp.falixsrv.me"
-const port = 25565
-const username = "wallstdokicte8@hotmail.com"
+function createBot() {
 
-function startBot() {
+const bot = mineflayer.createBot({
+  host: "ttuffsmp.falixsrv.me",
+  port: 25565,
+  username: "wallstdokicte8@hotmail.com",
+  auth: "microsoft",
+  version: false
+})
 
-  console.log("Controllo se il server è online...")
+bot.on('spawn', () => {
+  console.log("BOT ONLINE SU TUFFSMP")
 
-  const bot = mineflayer.createBot({
-    host: host,
-    port: port,
-    username: username,
-    auth: "microsoft",
-    version: "1.21.11"
-  })
+  // login automatico
+  setTimeout(() => {
+    bot.chat("/register 12345678 12345678")
+  }, 4000)
 
-  bot.on('spawn', () => {
+  setTimeout(() => {
+    bot.chat("/login 12345678")
+  }, 7000)
 
-    console.log("Bot entrato nel server")
+  // messaggio server
+  setInterval(() => {
+    bot.chat("TuffSMP on top 🔥")
+  }, 600000)
 
-    setTimeout(() => {
-      bot.chat("/vanish")
-    }, 3000)
-
-    antiAfk(bot)
-
-  })
-
-  function antiAfk(bot){
-
-    setInterval(() => {
-
-      bot.setControlState('jump', true)
-
-      setTimeout(() => {
-        bot.setControlState('jump', false)
-      }, 400)
-
-    }, 30000)
-
-  }
-
-  bot.on('error', (err) => {
-
-    console.log("Server offline o errore. Riprovo tra 60 secondi")
-
-    bot.quit()
-
-  })
-
-  bot.on('end', () => {
-
-    console.log("Bot disconnesso. Riconnessione tra 60 secondi")
+  // anti AFK movimento
+  setInterval(() => {
+    bot.setControlState('jump', true)
 
     setTimeout(() => {
-      startBot()
-    }, 60000)
+      bot.setControlState('jump', false)
+    }, 1000)
 
-  })
+  }, 30000)
+
+})
+
+bot.on("chat", (username, message) => {
+
+if (username === bot.username) return
+
+if (message === "ping") {
+bot.chat("pong")
+}
+
+})
+
+bot.on("kicked", (reason) => {
+console.log("KICKATO:", reason)
+})
+
+bot.on("error", (err) => {
+console.log("ERRORE:", err)
+})
+
+bot.on("end", () => {
+console.log("Bot disconnesso. Riconnessione tra 30 secondi")
+setTimeout(createBot, 30000)
+})
 
 }
 
-startBot()
+createBot()

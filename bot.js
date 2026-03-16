@@ -3,41 +3,47 @@ const mineflayer = require('mineflayer')
 function startBot(){
 
 const bot = mineflayer.createBot({
-  host: "ttuffsmp.falixsrv.me",
+  host: "TUOSERVER.falixsrv.me",
   port: 25565,
-  username: "wallstdokicte8@hotmail.com",
+  username: "TUAEMAIL",
   auth: "microsoft"
 })
 
 bot.on('spawn', () => {
+
   console.log("Bot entrato")
 
-  setTimeout(() => {
-    bot.chat("/vanish")
-  }, 3000)
+  bot.chat("/vanish")
+
+  antiAfk()
 
 })
 
-bot.on('playerJoined', (player) => {
+function antiAfk(){
 
-  if(player.username !== bot.username){
+  setInterval(() => {
 
-    console.log("Player entrato → esco")
-    bot.quit()
+    bot.setControlState('jump', true)
 
-  }
+    setTimeout(() => {
+      bot.setControlState('jump', false)
+    }, 500)
 
-})
+  }, 30000)
+
+}
 
 bot.on('end', () => {
 
-  console.log("Riconnessione tra 60 secondi")
+  console.log("Bot disconnesso, riconnessione")
 
   setTimeout(() => {
     startBot()
-  }, 60000)
+  }, 20000)
 
 })
+
+bot.on('error', console.log)
 
 }
 

@@ -7,7 +7,7 @@ const bot = mineflayer.createBot({
   port: 25565,
   username: "wallstdokicte8@hotmail.com",
   auth: "microsoft",
-  version: false
+  version: 1.21.11
 })
 
 bot.on('spawn', () => {

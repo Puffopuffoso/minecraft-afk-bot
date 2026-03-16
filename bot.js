@@ -2,7 +2,12 @@ const mineflayer = require('mineflayer')
 
 let bot = null
 
-function createBot() {
+function startBot() {
+
+  if (bot) {
+    console.log("Bot già acceso")
+    return
+  }
 
   bot = mineflayer.createBot({
     host: "ttuffsmp.falixsrv.me",
@@ -20,6 +25,19 @@ function createBot() {
     }, 5000)
   })
 
+  bot.on("chat", (username, message) => {
+
+    if (username === bot.username) return
+
+    // spegne il bot
+    if (message === "!bot off") {
+      bot.chat("Bot offline")
+      bot.quit()
+      bot = null
+    }
+
+  })
+
   bot.on("kicked", (reason) => {
     console.log("KICKATO:", reason)
   })
@@ -30,29 +48,25 @@ function createBot() {
 
   bot.on("end", () => {
     console.log("Bot uscito dal server")
+    bot = null
   })
+
 }
 
-// comandi da console
-process.stdin.on("data", (data) => {
+// comando da minecraft per accendere
+const mineflayerListener = mineflayer.createBot({
+  host: "ttuffsmp.falixsrv.me",
+  port: 27615,
+  username: "controller_bot",
+  version: "1.21.1"
+})
 
-  const command = data.toString().trim()
+mineflayerListener.on("chat", (username, message) => {
 
-  if (command === "start") {
-    if (!bot) {
-      console.log("Avvio bot...")
-      createBot()
-    } else {
-      console.log("Bot già acceso")
-    }
-  }
+  if (username === mineflayerListener.username) return
 
-  if (command === "stop") {
-    if (bot) {
-      console.log("Spengo bot...")
-      bot.quit()
-      bot = null
-    }
+  if (message === "!bot on") {
+    startBot()
   }
 
 })

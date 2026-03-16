@@ -18,16 +18,16 @@ bot.once("spawn", () => {
   }, 5000)
 })
 
-bot.on("messagestr", (message) => {
+bot.on("messagestr", (msg) => {
 
-  // attiva AFK
-  if (message.includes("!afk on")) {
+  console.log("CHAT:", msg)
+
+  if (msg.includes("!afk on")) {
     afk = true
     bot.chat("AFK attivato")
   }
 
-  // disattiva AFK
-  if (message.includes("!afk off")) {
+  if (msg.includes("!afk off")) {
     afk = false
     bot.chat("AFK disattivato")
   }

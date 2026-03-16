@@ -3,9 +3,9 @@ const mineflayer = require('mineflayer')
 function startBot(){
 
 const bot = mineflayer.createBot({
-  host: "TUOSERVER.falixsrv.me",
+  host: "ttuffsmp.falixsrv.me",
   port: 25565,
-  username: "TUAEMAIL",
+  username: "wallstdokicte8@hotmail.com",
   auth: "microsoft"
 })
 

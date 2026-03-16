@@ -10,25 +10,20 @@ function createBot() {
     version: "1.21.1"
   })
 
-  bot.once('spawn', () => {
+  bot.once("spawn", () => {
     console.log("BOT ONLINE SU TUFFSMP")
 
-    // register
-    setTimeout(() => {
-      bot.chat("/register 12345678 12345678")
-    }, 4000)
-
-    // login
+    // login automatico
     setTimeout(() => {
       bot.chat("/login 12345678")
-    }, 7000)
+    }, 5000)
 
-    // messaggio ogni 10 min
+    // messaggio ogni 10 minuti
     setInterval(() => {
       bot.chat("TuffSMP on top 🔥")
     }, 600000)
 
-    // anti AFK
+    // anti AFK (salta)
     setInterval(() => {
       bot.setControlState("jump", true)
 
@@ -45,6 +40,12 @@ function createBot() {
     if (message === "ping") {
       bot.chat("pong")
     }
+
+    // comando per spegnere il bot
+    if (message === "!botoff") {
+      bot.quit("Bot spento")
+      process.exit()
+    }
   })
 
   bot.on("kicked", (reason) => {
@@ -56,9 +57,10 @@ function createBot() {
   })
 
   bot.on("end", () => {
-    console.log("Bot disconnesso. Riconnessione tra 30 secondi...")
-    setTimeout(createBot, 30000)
+    console.log("Bot disconnesso. Riprovo tra 60 secondi...")
+    setTimeout(createBot, 60000)
   })
 }
 
-createBot()
+// aspetta 1 minuto prima di partire (FalixNodes spesso è lento)
+setTimeout(createBot, 60000)

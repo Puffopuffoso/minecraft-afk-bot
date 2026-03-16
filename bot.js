@@ -4,10 +4,10 @@ function createBot() {
 
   const bot = mineflayer.createBot({
     host: "ttuffsmp.falixsrv.me",
-    port: 25565,
+    port: 27615,
     username: "wallstdokicte8@hotmail.com",
     auth: "microsoft",
-    version: "1.21.11"
+    version: "1.21.1"
   })
 
   bot.once('spawn', () => {
